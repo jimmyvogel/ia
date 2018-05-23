@@ -1,0 +1,90 @@
+## Tutorial ACPR sur donnees State Facts
+## D. Chauveau - GSON 2018
+#############################
+library(ade4) # package pour ACP etc (data mining)
+
+# Importation sous forme de data.frame
+states <- read.table("StateFacts_tuto.txt", 
+          header=T, row.names=1) # individus col. 1
+attach(states)   # rend visible les variables de states
+# creation d'un facteur Region avec codage + concis
+R2 <- factor(Region,labels=c("NC","NE","S","W"))
+
+
+# table des variables quantitatives retenues, individus actifs
+x <- data.frame(states[,-6]) # toutes sauf Region
+summary(x) # pas de NA's etc
+
+
+# ACP normee ou non ? (la question se pose seulement si unites identiques)
+print(sapply(x, mean), 3)
+print(sapply(x, sd),3)
+
+
+### ACP 
+?dudi.pca
+acp <- dudi.pca(x, scale=TRUE, scannf=F)  # normee ici
+
+# acp # quelques infos sur le contenu
+# $li = row coordinates, ie principal components
+# co = correlations(anciens,nouveaux)
+# ds le cas d'une acp normee!
+
+
+# Repartition de l'inertie du nuage selon les axes
+inertie <- inertia.dudi(acp,col.inertia=F, row.inertia=T)
+inertie$TOT # val propres et % inertie cumules (ratio)
+
+
+## GRAPHIQUES
+par(mfrow=c(1,2))
+scatterutil.eigen(acp$eig,nf=3,box=T,sub="Eboulis des valeurs propres")
+# alternative a la main (mieux!)
+barplot(acp$eig, col=8, main="Eboulis des valeurs propres", cex.main=1.8,
+	ylab=expression(lambda), xlab="Axes principaux",cex.axis=1.5, 
+	names.arg=1:5, cex.names=1.5, cex.lab=1.5)
+
+# Carte des caracteres = Cercle des Correlations
+s.corcircle(acp$co,clabel=1.2,sub="Cercle de correlations")
+
+# Plan principal - sortie par defaut de ade4
+# avec quelques reglages
+s.class(acp$li, Region, cstar=0, cpoint=1, clabel=0.8, col=1:4,
+		cellipse=1.5); title('Plan principal avec barycentres region')
+
+# a la main:
+# Plan factoriel 1-2 avec labels individus 
+# barycentres et ellipses, colores par region
+par(mfrow=c(1,1))
+colRindiv <- as.numeric(R2) # vecteur des couleurs des individus
+colR <-seq(1,length(levels(Region))) # couleurs des 1,...,k barycentres
+
+plot(acp$li$Axis1, acp$li$Axis2, type="n", # preparation fenetre
+	xlab="Axe principal 1", ylab="Axe principal 2")
+text(acp$li$Axis1, acp$li$Axis2, cex=1,		# ajout des labels indiv
+	labels=row.names(x), col=colRindiv)
+s.class(acp$li, R2, cstar=0, cpoint=0, clabel=1.2, # et des barycentres
+		col=colR, axesell=F, add.plot=TRUE)
+abline(h=0, col=8); abline(v=0, col=8)
+title('Plan principal avec barycentres region')
+title(sub=paste("% d'inertie:", round(inertie$TOT[2,3],3)))
+
+
+## Aides a l'interpretation: Usage des cos^2 et representation
+# $row.cum # cos2 cumules en %
+head(inertie$row.cum) # cos2 cumules
+
+cos2 <- inertie$row.cum[,2] # cos2 cumules plan principal
+plot(acp$li$Axis1, acp$li$Axis2, type="n",
+     xlab="Axe principal 1", ylab="Axe principal 2")
+text(acp$li$Axis1, acp$li$Axis2, cex=cos2/100,
+     labels=row.names(x), col=colRindiv)
+s.class(acp$li, R2, cstar=0, cpoint=0, clabel=1.2,
+        col=colR, axesell=F, add.plot=TRUE)
+abline(h=0, col=8); abline(v=0, col=8)
+
+
+
+
+
+

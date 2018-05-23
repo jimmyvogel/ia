@@ -1,0 +1,1 @@
+g++ lesson4.cpp -lGL -lglut -lGLU -o lesson4

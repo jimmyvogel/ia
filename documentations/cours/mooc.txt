@@ -1,0 +1,7 @@
+Intelligence interactionnel:
+
+https://projet.liris.cnrs.fr/ideal/mooc/ //TODO re
+
+MLCC : Machine Learning Cours Crash:
+Technologie : TensorFlow. Temps : (une journée) //TODO
+https://developers.google.com/machine-learning/crash-course/ml-intronsor

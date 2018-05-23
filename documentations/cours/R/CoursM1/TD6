@@ -1,0 +1,102 @@
+NrNARow <- function(x){
+	sum(is.na(x));
+}
+
+manyNAs <- function(x, t){
+	tab <- apply(x, 1, NrNARow);
+	nb_val <- length(x);
+	in_p100_accept <- t * nb_val;
+	x[unname(tab) < in_p100_accept,];
+}
+
+centerImputation <- function(x){
+	for(i in 1:length(x)){
+		pos <- which(is.na(x[,i]) );
+		if(is.numeric(x[,i])){
+			x[pos,i]<-median(x[,i], na.rm=T);
+		}
+		if(is.factor(x[,i])){
+			x[pos,i]<-Mode(x[,i]);
+		}
+	}
+	(x);
+}
+
+algae_temp <- read.table('algaeClassification.txt', header=T)
+algae_temp <- manyNAs(algae_temp, 0.2)
+algae <- centerImputation(algae_temp)
+
+Task 3:
+pab1<-algae[algae[,1]=='winter' & algae[,12]=='feqLow',]
+pb1<-algae[algae[,12]=='feqLow',]
+p1<-length(pab1[,1])/length(pb1[,1])
+
+pab2<-algae[algae[,2]=='medium' & algae[,12]=='feqHigh',]
+pb2<-algae[algae[,12]=='feqHigh',]
+p2<-length(pab2[,1])/length(pb2[,1])
+
+pab3<-algae[algae[,3]=='low' & algae[,12]=='feqMedium',]
+pb3<-algae[algae[,12]=='feqMedium',]
+p3<-length(pab3[,1])/length(pb3[,1])
+
+
+Task 4:
+
+v<-algae[algae[,12]=='feqMedium',4]
+me<-mean(v)
+sd<-sd(v)
+dmediummxph<-dnorm(8.25,me,sd)
+v<-algae[algae[,12]=='feqHigh',4]
+me<-mean(v)
+sd<-sd(v)
+dhighmxph<-dnorm(8.25,me,sd)
+v<-algae[algae[,12]=='feqLow',4]
+me<-mean(v)
+sd<-sd(v)
+dlowmxph<-dnorm(8.25,me,sd)
+
+v2<-algae[algae[,12]=='feqHigh',5]
+me2<-mean(v2)
+sd2<-sd(v2)
+dhighmno2<-dnorm(10.4,me2,sd2)
+v2<-algae[algae[,12]=='feqMedium',5]
+me2<-mean(v2)
+sd2<-sd(v2)
+dmediummno2<-dnorm(10.4,me2,sd2)
+v2<-algae[algae[,12]=='feqLow',5]
+me2<-mean(v2)
+sd2<-sd(v2)
+dlowmno2<-dnorm(10.4,me2,sd2)
+
+v3<-algae[algae[,12]=='feqMedium',10]
+me3<-mean(v3)
+sd3<-sd(v3)
+dmediumpo4<-dnorm(57.833,me3,sd3)
+v3<-algae[algae[,12]=='feqLow',10]
+me3<-mean(v3)
+sd3<-sd(v3)
+dlowpo4<-dnorm(57.833,me3,sd3)
+v3<-algae[algae[,12]=='feqHigh',10]
+me3<-mean(v3)
+sd3<-sd(v3)
+dhighpo4<-dnorm(57.833,me3,sd3)
+
+Task5:
+P1:
+season1 <- prop.table(table(algae[algae[,12]=='feqLow', 1]));
+season2 <- prop.table(table(algae[algae[,12]=='feqMedium', 1]));
+season3 <- prop.table(table(algae[algae[,12]=='feqHigh', 1]));
+
+size1 <- prop.table(table(algae[algae[,12]=='feqLow', 2]));
+size2 <- prop.table(table(algae[algae[,12]=='feqMedium', 2]));
+size3 <- prop.table(table(algae[algae[,12]=='feqHigh', 2]));
+
+speed1 <- prop.table(table(algae[algae[,12]=='feqLow', 3]));
+speed2 <- prop.table(table(algae[algae[,12]=='feqMedium', 3]));
+speed3 <- prop.table(table(algae[algae[,12]=='feqHigh', 3]));
+
+a1dens <- prop.table(table(algae[,12]))
+
+p1 <- unname(season1[1])*unname(size1[1])*unname(speed1[3])*dlowmxph*dlowmno2*unname(a1dens[2])
+p2 <- unname(season2[1])*unname(size2[1])*unname(speed2[3])*dmediummxph*dmediummno2*unname(a1dens[3])
+p3 <- unname(season3[1])*unname(size3[1])*unname(speed3[3])*dhighmxph*dhighmno2*unname(a1dens[1]) 

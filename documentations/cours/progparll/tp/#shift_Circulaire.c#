@@ -1,0 +1,26 @@
+#include <mpi.h>
+#include <stdio.h>
+
+int main ( int argc , char **argv ){
+  int pid;
+  int nbprocs;
+  int buff[10] = {0,1,2,3,4,5,6,7,8,9};
+  MPI_Init(&argc, &argv);
+  MPI_Comm_size(MPI_COMM_WORLD,&nbprocs);//nb total de proc
+  MPI_Comm_rank(MPI_COMM_WORLD,&pid);//mon pid
+  if( pid%2 == 0 ){ //cas pair, send et enuite recv
+    MPI_Ssend(buff, 10, MPI_INT, (pid+1)%nbprocs, 9, MPI_COMM_WORLD);
+    printf( " I am %d and i sent to %d\n" , pid , (pid+1)%nbprocs );
+    MPI_Recv(buff, 10, MPI_INT, ((pid-1)+nbprocs)%nbprocs, 9, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    printf( " I am %d and i received from %d\n" , pid , ((pid-1)+nbprocs)%nbprocs );
+
+  }
+  else{ // cas impair , recv et ensuite send
+    MPI_Recv(buff, 10, MPI_INT, (pid-1)%nbprocs, 9, MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    printf( " I am %d and i received from %d\n" , pid , ((pid-1)+nbprocs)%nbprocs );
+    MPI_Ssend(buff, 10, MPI_INT, (pid+1)%nbprocs, 9, MPI_COMM_WORLD);
+    printf( " I am %d and i sent to %d\n" , pid , (pid+1)%nbprocs );
+  }
+  MPI_Finalize();
+  return 0;
+}

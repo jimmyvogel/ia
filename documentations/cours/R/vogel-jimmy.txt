@@ -1,0 +1,64 @@
+II 
+
+Question 1
+
+algae<-read.table("Analysis.txt",header=T)
+attach(algae)
+jpeg('figure01.jpg')
+par(mfrow=c(2,1))
+boxplot(mxPH~season)
+boxplot(mxPH~size)
+dev.off()
+
+Question 2:
+
+A partir de la boite à moustache mettant en corrélation les saisons et mxPh, 
+on peut voir que les saisons ont une influence minime sur mxPH.
+
+A partir de la boite à moustache mettant en corrélation la taille de la
+rivière et mxPH, on peut voir que la taille de la rivière à une influence sur
+mxPH. En effet plus la rivière est grande plus mxPH a des valeurs élevées.
+
+III
+
+Question 1:
+
+jpeg('figure02.jpg')
+hist(iris$Petal.Length, prob=T)
+lines(density(iris$Petal.Length, na.rm=T))
+dev.off()
+
+Question 2:
+
+La distribution est asymétrique car la médiane et la moyenne sont différentes.
+On s'aperçoit que c'est parce qu'il y a des valeurs minimales extremes dans
+l'échantillon.
+
+IV 
+
+Question 1:
+
+f <- function(x){
+	res<-seq(1:length(x));
+	for(i in 1:length(x)){
+		val<-x[i]-median(x);
+		if(val<0) 
+			val<-val*(-1);
+		res[i]<-median(val);
+	}
+	order(res)
+	median(res);
+}
+
+Question 2:
+
+basicS<-function(x){
+	res<-seq(1:4);
+	res[1]<-mean(x);
+	res[2]<-sd(x);
+	res[3]<-median(x);
+	res[4]<-f(x);
+	names(res) <- c("mean", "std", "median", "mad");
+	res;
+}
+	

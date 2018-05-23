@@ -1,0 +1,1 @@
+Pour des questions de performance si les règles ne change pas, il faut garder les règles et faits en mémoire donc pas de bdd.

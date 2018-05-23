@@ -1,0 +1,71 @@
+packages: cran.r-project.org/web/packages
+pour s'y retrouver cran task views. (tri par domaine)
+
+packages/mixtools : démélange.
+
+rstudio : https://www.rstudio.com
+shiny : interface web visualisation http://shiny.rstudio.com/gallery/
+
+R markdown : générateur de documents (pdf, html,...) includant code latex et code R dynamique.
+
+hadoop map reduce : package RHadoop pour le BigData.
+
+methods(::object) <- afficher les méthodes d'un objet.
+sample(x, nbrs, replace = False, prob="")
+
+var <- variante
+
+summary(dataframe) <- résumé.
+
+cor(data[, -6]) <- corrélations, sauf facteur.
+tapply(Meurtre, Region, mean)	<- analyse moyenne pour chaque region.
+by(states[, -6], Region, colMeans) <- analyse precedente mes pour toutes les colonnes except Region.
+
+histogramme:
+density = frequence / proportionnalité. L'aire de l'histogramme est toujours 1.
+hist(Meurtre, freq=FALSE)
+exemple: afficher les histogrammes des 5 variables quantitatives
+
+par(mfrow=c(2,3))
+for(j in 1:5) {
+	hist(data[, j], col=8, xlab="", cex.main=2, cex.axis=1.5, main=colnames(data)[j])
+}
+
+Tous les corrélations possibles entre deux variables de data:
+plot(data[, -6])
+
+
+Afficher la region à la place des points pour démontrer les effets régions sur la criminalité.
+> plot(Meurtre~Apb, pch=3, xlab="Analphabete", ylab="criminalité", main="comparaison", type="n")
+	<- type="n" permet de ne pas montrer les points, puisqu'on va les remplacer après:
+> text(Apb,Meurtre,Region)
+R2<-factor(Region, labels=c("C","E","S","W"))
+> text(Apb,Meurtre,R2, col=as.numeric(R2))
+
+boxplot(Revenu) <- boite à moustache.
+
+quantile:
+quantile(Meutre, 0.01)
+summary(Meurtre)
+median(meurtre)
+boxplot.stats(Meurtre)		<-- généralement le quantile(1er et 3ème) donné par boxplot.stats() est utilisé.
+
+Séparation d'une valeur numérique en facteur.
+cut(Diplome, 4)
+Avec modalité spécifié:
+q<-quantile(Diplome, probs=seq(0,1,1/3))		<- remlacer 1/3 par 1/n, n le nombre de classes désirés.
+fd <- cut(Diplome, breaks=3, include.lowest=T, labels=c("faible","moyen", "fort"))
+Tableau croisé:
+t<-table(Diplome, fdq)
+table de proportion: prop.table(t) 
+
+prop.table(t, margin=1) <- probabilité d'être dans une classe(class=ligne)
+prop.table(t, margin=2) <- probabilité d'être dans une classe(class=colonne)
+
+print(prop.table(t, margin=1), 2) #lisibilité, deuxième paramère = nombre de décimales.
+spineplot(Region, fdq) # présentation en graphique d'une corrélation entre deux modalités.
+
+covariance:
+cov(data[,-6])
+
+

@@ -1,0 +1,7 @@
+Ce que le projet n'a pas pour but:
+- Le projet n'a pas pour but la résolution d'un problème en particulier.
+- Le projet ne doit pas demander la création de nouvelles technologies mais seulement leur utilisation. L'efficacité n'est pas l'objectif.
+
+
+Le projet a principalement pour but de définir une architecture fonctionnel répondant au besoin suivant:
+"Un agent intelligent sans but, sans intéraction avec l'utilisateur, mais curieux, cherchant de nouvelles intéractions constamment et capable de trouver les intéractions possibles avec un environnement."

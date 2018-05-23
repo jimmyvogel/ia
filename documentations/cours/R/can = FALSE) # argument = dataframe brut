@@ -1,0 +1,64 @@
+dudi.coa                 package:ade4                  R Documentation
+
+_C_o_r_r_e_s_p_o_n_d_e_n_c_e _A_n_a_l_y_s_i_s
+
+_D_e_s_c_r_i_p_t_i_o_n:
+
+     performs a correspondence analysis.
+
+_U_s_a_g_e:
+
+     dudi.coa(df, scannf = TRUE, nf = 2)
+     
+_A_r_g_u_m_e_n_t_s:
+
+      df: a data frame containing positive or null values
+
+  scannf: a logical value indicating whether the eigenvalues bar plot
+          should be displayed
+
+      nf: if scannf FALSE, an integer indicating the number of kept
+          axes
+
+_V_a_l_u_e:
+
+     returns a list of class ‘coa’ and ‘dudi’ (see dudi) containing
+
+       N: the sum of all the values of the initial table
+
+_A_u_t_h_o_r(_s):
+
+     Daniel Chessel
+     Anne-Béatrice Dufour <email: anne-beatrice.dufour@univ-lyon1.fr>
+
+_R_e_f_e_r_e_n_c_e_s:
+
+     Benzécri, J.P. and Coll. (1973) _L'analyse des données. II
+     L'analyse des correspondances_, Bordas, Paris. 1-620.
+     Greenacre, M. J. (1984) _Theory and applications of correspondence
+     analysis_, Academic Press, London.
+
+_E_x_a_m_p_l_e_s:
+
+     data(rpjdl)
+     chisq.test(rpjdl$fau)$statistic
+     rpjdl.coa <- dudi.coa(rpjdl$fau, scannf = FALSE, nf = 4)
+     sum(rpjdl.coa$eig)*rpjdl.coa$N # the same
+     
+     if(adegraphicsLoaded()) {
+       g1 <- s.label(rpjdl.coa$co, plab.cex = 0.6, lab = rpjdl$frlab, plot = FALSE)
+       g2 <- s.label(rpjdl.coa$li, plab.cex = 0.6, plot = FALSE)
+       cbindADEg(g1, g2, plot = TRUE)
+     } else {
+       par(mfrow = c(1,2))
+       s.label(rpjdl.coa$co, clab = 0.6, lab = rpjdl$frlab)
+       s.label(rpjdl.coa$li, clab = 0.6)
+       par(mfrow = c(1,1))
+     }
+     
+     data(bordeaux)
+     db <- dudi.coa(bordeaux, scan = FALSE)
+     db
+     score(db)
+     
+

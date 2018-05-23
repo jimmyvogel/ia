@@ -1,0 +1,12 @@
+data<-read.table("StateFacts_tuto.txt",header=T, row.names=1) 
+	<- row nécessaire pour supprimer la première colonne et effacer l'entete pendant la recherche.
+attach(data)
+mean(Revenu)
+sd(Revenu)
+length(data[Revenu>5000,])
+
+Numeric : Pop Revenu Apb Meurtre Diplome
+apply(data[,-6], 2, mean)
+
+colnames(data)[1]	<- changer le nom de la variable Pop en Population.
+sum(Population^2)	<- calculer la somme des x^2.

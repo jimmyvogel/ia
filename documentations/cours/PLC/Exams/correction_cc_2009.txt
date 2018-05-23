@@ -1,0 +1,150 @@
+Proposition de correction au contrôle continu du 6 novembre 2009
+
+Exercice 1 :
+
+--1 dernier([X],X).
+--2 dernier([_|L],X) :- dernier(L,X).
+
+1) dernier([a,b,c],X).
+	|  --2
+        v
+    dernier([b,c],X).
+	|  --2
+	v
+    dernier([c],X).
+	|  --1
+	v  X=c.
+       true
+   
+
+
+     dernier(L,a).
+	| --1		|  --2
+	v  L=[a]	v  L=[_|L2]
+       true	       dernier(L2,a)
+			|  --1	 	|
+			v  L2=[a]	v
+		      true	    répétition à l'infini,
+				    il y a une infinité de solutions.
+Les solutions: [a],[_,a],[_,_,a] ...etc
+
+
+
+2)
+--1 dernier([X],X) :- !.
+--2 dernier([_|L],X) :- dernier(L,X).
+
+   Meme chose que la question 1 pour dernier([a,b,c],X).
+   Juste L=[a] comme résultat pour dernier(L,a): on n'utilise pas --2 
+   sur une branche où --1 a trouvé une solution.
+
+3) 
+ad([X,_], X) :- !.
+ad([_|L], X) :- ad(L,X).
+
+4)
+kd(K, [X|L], X):- Z is K-1, length(L, Z), !.
+kd(K, [_|L], X):- kd(K, L, X).
+Remarque: length(L,K-1) ne peut remplacer Z is K-1, length(L,Z).
+
+Exercice 2:
+
+1)
+
+//Le "rang" suivant permet de calculer le rang si il est donné, il ne 
+//permet pas de le récupérer.
+rang(X,N):-grandpatron(X).
+rang(X,N):-
+	employe(X), 
+	Z is N-1, 
+	superieurdirect(S,X),
+	rang(S,Z).
+
+//Pour rajouter la spécification sur le compteur, il faut spécifier la
+//valeur de N à la fin, c'est à dire quand la récursion à fini de 
+//compter à quel position se trouve l'employe.
+rang(X,1):-grandpatron(X).
+rang(X,N):- 
+	employe(X),
+	superieurdirect(S,X),
+	rang(S,Z),	
+	N is Z+1.
+
+
+2)
+hierarchie_ok(_):- %une expression nécessite un argument. 
+	findall(Y,superieurdirect(X,Y),S1),
+	setof(Y,[X]^superieurdirect(X,Y),S2),
+	S1=S2.
+
+3)
+unsuperieur(E,S):- superieurdirect(S,E),!.
+unsuperieur(E,S):- superieurdirect(Y,E), unsuperieur(Y,S).
+
+4)
+unehierarchie([_]).
+unehierarchie([X,Y|L]):- superieurdirect(X,Y), unehierarchie([Y|L]).
+
+5) Prédicat superieur(E,L) vrai si la liste L est la liste de tous les supérieurs de E.
+superieur(E,[]):- grandpatron(E),!.
+superieur(E,[X|S]):- superieurdirect(X,E), superieur(X, S).
+
+6)
+/*element(X,L) est vrai si X est élément de la liste L.*/
+element(X,[X|_]).
+element(X,[_|R]) :- element(X,R).
+/*intersection(L1,L2,L3) est vrai si L3 est l'intersection de L1 et L2.*/
+intersection([],_,[]).
+intersection([X|L1],L2,[X|L3]):- element(X,L2), intersection(L1,L2,L3),!.
+intersection([_|L1],L2,L3):- intersection(L1,L2,L3).
+listesuperieurs([],_).
+listesuperieurs([X|L1],L2):-
+	employe(X), 		% x est un employé.
+	superieur(X,S1),	% S1 la liste des supérieurs de x.
+	listesuperieurs(L1,S2), % intuitif, à faire sans comprendre :p
+	intersection(S1,S2,L2). % on fait l intersection entre tous les résultats.
+
+
+Exercice 3 :
+
+1)
+%meme exemple que précedemment, ici la spécification est +, +, +
+matrice([],0,_).
+matrice([L|L1],N,M):- 
+	length(L,M),
+	Z is N-1,
+	matrice(L1,Z,M).
+% avec la spécification +,-,+, il faut:
+matrice([],0,_).
+matrice([L|L1],N,M):- 
+	length(L,M),
+	matrice(L1,Z,M),
+	N is z+1.
+
+2)
+somL([],[],[]).
+somL([X|L1],[Y|L2],[Z|L3]):- Z is X+Y, somL(L1,L2,L3).
+
+somMat([],[],[]).
+somMat([X|L1],[Y|L2],[Z|L3]):- somL(X,Y,Z), somMat(L1,L2,L3).
+
+3)
+Prédicat prodConst(X,A,R): R est le resultat du produit de la matrice A avec la constante X
+
+prodL(_,[],[]).
+prodL(X,[Y|L2],[Z|L3]):- 
+	Z is X*Y, 
+	prodL(X,L2,L3).
+prodConst(_,[],[]).
+prodConst(X,[L1|L2],[S1|S2]):- 
+	prodL(X,L1, S1),
+	prodConst(X,L2,S2).
+
+
+
+
+
+
+
+
+    

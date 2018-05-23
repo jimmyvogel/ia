@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;ia.orleans.fr.MoocIA1.environnement.Environnement.java&apos; to &apos;Environement.java&apos;&#x0A;- Original project: &apos;MoocIA1&apos;&#x0A;- Original element: &apos;ia.orleans.fr.MoocIA1.environnement.Environnement.java&apos;&#x0A;- Renamed element: &apos;ia.orleans.fr.MoocIA1.environnement.Environement.java&apos;" description="Rename compilation unit &apos;Environnement.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src\/main\/java&lt;ia.orleans.fr.MoocIA1.environnement{Environnement.java" name="Environement.java" references="false" stamp="1513505455782" version="1.0"/>
+</session>

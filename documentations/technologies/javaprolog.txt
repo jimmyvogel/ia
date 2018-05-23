@@ -1,0 +1,3 @@
+Utiliser du prolog avec java:
+
+https://stackoverflow.com/questions/4303931/how-use-prolog-from-java

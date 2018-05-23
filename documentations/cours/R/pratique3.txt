@@ -1,0 +1,35 @@
+Etudier une corrélation entre deux variables quantitatives:
+
+exemple : revenu et diplome.
+
+Y = Revenu 	#variable d'intérêt
+X = Diplome	#variable supposé ayant un impact sur la variable d'intérêt.
+
+Existe t-il un lien entre les deux variables: connaitre son intensité et sa nature.
+
+Ecrire Y comme Y=f(x)+µ
+		=ax+b+µ	#régression linéaire.
+
+coefficient de corrélation:
+r(x,y) = cor(x,y) / sqrt(var(x)^2*var(y)^2)
+Il est toujours entre -1 et 1.
+| r(x,y) | = 1 <=> Tous les points sont alignés (plus ca se rapproche de 1, plus le lien est linéaire) et les points évoluent dans le même sens.
+						 plus ca se rapproche de -1, plus le lien est linéraire et les points évoluent dans un sens 							 différent.)
+
+En R : cor(x,y) 
+
+res=lm(Revenu~Diplome)
+summary(res)
+	Residu <- Erreur vertical par rapport à la droite. Ecart entre les points et la droite linéaire de la fonction obtenu.
+
+	Coefficients <- donne la valeur b suivit de la valeur de coefficient a.  Pr <- probabilité que b et a ne forme pas une corrélation.
+
+	multiplied squared > 0.9 <---- très bonne régression.
+abline(res) pour dessiner la droite.
+
+
+
+predict(res, data.frame(Girth=22)) <-- utiliser prédict pour savoir la prédiction de y en fonction de x. (ici avec data(trees))
+
+(exemple res=lm(Volume~Girth+Height)).		<-- exemple pour incorporer plusieurs variables en un format 2d.
+						    voir multiplied squared pour savoir si un shema a deux ou trois variables est meilleur.

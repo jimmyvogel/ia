@@ -1,0 +1,9 @@
+american(Colonel West).
+weapon(missile).
+american(Y) & weapon(A) & sell(Y, A, X) & enemy_of_america(X) -> criminel(Y)
+enemy_of_america(X) <=> hostile_nation(X)
+hostile_nation(Nono).
+hostile_nation(Nono)->enemy_of_america(Nono).
+enemy_of_america(Nono).
+american(Colonel_west) & weapon(missile) & sell(colonel_west, missile, Nono)  & enemy_of_america(Nono) -> criminel(Colonel_west).
+criminel(Colonel_west).

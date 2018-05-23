@@ -1,0 +1,133 @@
+numcases <- 10000 #how many samples to take?
+min <- 0 #lowest value
+max <- 1
+ntimes <- 6
+op<- par(mfrow=c(ntimes,1), mar=c(2.5, 2.5,2.5,2.5), mgp=c(3, 1, 0)) #stack ntimes graphs on
+top of each other
+i2 <- 1 #initialize counters
+for (i in 1:ntimes) #repeat n times
+{
+sample=rep(0,numcases) #create a vector
+k=0 #start off with an empty set of counters
+for (j in 1:i2) # inner loop
+{
+sample <- sample +runif(numcases,min,max)
+k <- k+1
+}
+x <- sample/k
+hist(x, xlim=range(0,1),prob=T ,main=paste( "samples of size", k ),col="blue")
+i2 <- 2*i2
+}
+#end of i loop
+
+load("algae.RData")
+attach(algae)
+hist(a1,prob=T,breaks=30)
+
+results =numeric(0) # a place to store the results
+for (i in 1:100)
+{
+	# the for loop --- 100 samples
+	S = sample(a1,30) # take a random sample of size 30
+	results[i]= mean(S) # store the answer
+}
+hist(results,prob=T)
+# The sampling distribution looks like a normal distribution but strangely difform. By tracing the density we find the mod to be more 16 than 17. The mean is quite far comparing to a normal distribution but quite good enough.
+
+# 3. TASKS
+
+data(iris)
+attach(iris)
+lengthsetosa <- iris[iris["Species"]=="setosa",]
+hist(lengthsetosa$Petal.Length, prob=T)
+
+me<-mean(lengthsetosa$Petal.Length);
+sd<-sd(lengthsetosa$Petal.Length);
+
+results=numeric(0)
+taille_sample<-30
+
+for(i in 1:100){
+	S = sample(lengthsetosa$Petal.Length, taille_sample);
+	results[i]=mean(S, na.rm=T);
+}
+
+hist(results, prob=T)
+lines(density(results))
+
+me2<-mean(results, na.rm=T)
+sd2<-sd(results, na.rm=T)
+
+#intervalle de confiance
+m <- mean(iris[iris["Species"]=="setosa","Petal.Length"])
+s <- sd(iris[iris["Species"]=="setosa","Petal.Length"])
+n <- nrow(length(iris[iris["Species"]=="setosa","Petal.Length"]))
+error <- s/sqrt(n)
+z_left <- m-2*error
+z_right <- m+2*error
+
+#t-distribution
+error2<- qt(0.975, df=n-1)*s/sqrt(n)
+# qt is a quantile function for the t-distribution with def degrees of freedom.
+A quantile function returns for a given probability, the value wich the random
+variable will be at, or below, with that probability.
+t_left <-m-error
+t_right <-m+error
+t_left	#1.433981
+t_right #1.490019
+
+# TASK 6
+
+ozone <- read.table("gardens.txt",header=T)
+summary(ozone)
+
+Task 1:
+attach(ozone)
+mA <- mean(gardenA)
+mB <- mean(gardenB)
+mC <- mean(gardenC)
+sA <- sd(gardenA)
+sB <- sd(gardenB)
+sC <- sd(gardenC)
+n <- nrow(ozone)
+errorA<- qt(0.975, df=n-1)*sA/sqrt(n)
+errorB<- qt(0.975, df=n-1)*sB/sqrt(n)
+errorC<- qt(0.975, df=n-1)*sC/sqrt(n)
+t_leftA <-mA-errorA
+t_rightA <-mA+errorA
+t_leftB <-mB-errorB
+t_rightB <-mB+errorB
+t_leftC <-mC-errorC
+t_rightC <-mC+errorC
+
+Task 2:
+a<-iris[iris["Species"]=="setosa","Petal.Length"]
+b<-iris[iris["Species"]=="virginica","Petal.Length"]
+t.test(a,b)
+
+Task3:
+social<-read.table("social.txt", header=T)
+attach(social)
+
+
+t.test(h,f)
+#data:  h and w
+#t = 1.643, df = 10, p-value = 0.1314
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+# -7.348778 48.621505
+#sample estimates:
+#mean of the differences 
+#               20.63636 
+
+
+
+t.test(h,f,paired=T)
+#data:  h and w
+#t = 1.643, df = 10, p-value = 0.1314
+#alternative hypothesis: true difference in means is not equal to 0
+#95 percent confidence interval:
+# -7.348778 48.621505
+#sample estimates:
+#mean of the differences 
+#               20.63636 

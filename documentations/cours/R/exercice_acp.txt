@@ -1,0 +1,106 @@
+data <- read.table("jussac.txt", header=T)
+attach(data)
+x <- data.frame(data[Type!="Ju",-1]) # suppression de la colonne type et isolation de l'échantillon à tester
+
+library(ade4)
+
+
+
+### ACP 
+?dudi.pca
+acp <- dudi.pca(x, scale=TRUE, scannf=F)  # normee ici
+#acp <- dudi.pca(x, scale=FALSE, scannf=F)  # non normée
+
+# ACP normee ou non ? (la question se pose seulement si unites identiques)
+print(sapply(x, mean), 3)
+print(sapply(x, sd),3)
+
+# Repartition de l'inertie du nuage selon les axes
+inertie <- inertia.dudi(acp,col.inertia=F, row.inertia=T)
+inertie$TOT # val propres et % inertie cumules (ratio)
+
+
+## GRAPHIQUES
+par(mfrow=c(1,2))
+scatterutil.eigen(acp$eig,nf=3,box=T,sub="Eboulis des valeurs propres")
+# alternative a la main (mieux!)
+barplot(acp$eig, col=8, main="Eboulis des valeurs propres", cex.main=1.8,
+	ylab=expression(lambda), xlab="Axes principaux",cex.axis=1.5, 
+	names.arg=1:5, cex.names=1.5, cex.lab=1.5)
+
+# Carte des caracteres = Cercle des Correlations
+s.corcircle(acp$co,clabel=1.2,sub="Cercle de correlations")
+
+# Plan principal - sortie par defaut de ade4
+# avec quelques reglages
+race <- Type[Type!="Ju"]
+
+s.class(acp$li, race, cstar=0, cpoint=1, clabel=0.8, col=1:4,
+		cellipse=1.5); title('Plan principal avec barycentres region')
+
+R2 <- factor(race)
+
+############ Rajout des individus à tester #####################################################"
+indsup <- data.frame(data[Type=="Ju",])
+x2 <- indsup[,-1]				# recupération des coordonnées
+acpsup <- suprow(acp, x2)			# 
+s.label(acpsup$lisup, clab=1.1, label="jusac", add.p=T)	#affichage
+
+
+
+################### autre ###############
+par(mfrow=c(1,1))
+colRindiv <- as.numeric(R2) # vecteur des couleurs des individus
+colR <-seq(1,length(levels(race))) # couleurs des 1,...,k barycentres
+
+plot(acp$li$Axis1, acp$li$Axis2, type="n", # preparation fenetre
+	xlab="Axe principal 1", ylab="Axe principal 2")
+
+text(acp$li$Axis1, acp$li$Axis2, cex=1,		# ajout des labels indiv
+	labels=row.names(x), col=colRindiv)
+
+s.class(acp$li, R2, cstar=0, cpoint=0, clabel=1.2, # et des barycentres
+		col=colR, axesell=F, add.plot=TRUE)
+
+abline(h=0, col=8); abline(v=0, col=8)
+title('Plan principal avec barycentres region')
+title(sub=paste("% d'inertie:", round(inertie$TOT[2,3],3)))
+
+
+
+
+############ Exercice 2 : couleur des yeux ##########################
+
+data <- read.table("couleursYeuxCheveux.txt", header=T)
+attach(data)
+x <- data.frame(data) # suppression de la colonne type et isolation de l'échantillon à tester
+
+library(ade4)
+
+
+
+### ACP 
+?dudi.pca
+acp <- dudi.pca(x, scale=TRUE, scannf=F)  # normee ici
+#acp <- dudi.pca(x, scale=FALSE, scannf=F)  # non normée
+
+# Repartition de l'inertie du nuage selon les axes
+inertie <- inertia.dudi(acp,col.inertia=F, row.inertia=T)
+inertie$TOT # val propres et % inertie cumules (ratio)
+
+
+## GRAPHIQUES
+par(mfrow=c(1,2))
+scatterutil.eigen(acp$eig,nf=3,box=T,sub="Eboulis des valeurs propres")
+# alternative a la main (mieux!)
+barplot(acp$eig, col=8, main="Eboulis des valeurs propres", cex.main=1.8,
+	ylab=expression(lambda), xlab="Axes principaux",cex.axis=1.5, 
+	names.arg=1:5, cex.names=1.5, cex.lab=1.5)
+
+# Carte des caracteres = Cercle des Correlations
+s.corcircle(acp$co,clabel=1.2,sub="Cercle de correlations")
+
+s.class(acp$li, race, cstar=0, cpoint=1, clabel=0.8, col=1:4,
+		cellipse=1.5); title('Plan principal avec barycentres region')
+
+

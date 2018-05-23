@@ -1,0 +1,67 @@
+# Tutorial AFC GSON 2018, exemple Couleurs Yeux-Cheveux
+# D. Chauveau
+# AFC package ade4
+library(ade4)
+cYC <- read.table("couleursYeuxCheveux.txt")
+cYC # table des comptages
+
+# Convertir en table pour appliquer les methodes 
+tYC <- as.table(as.matrix(cYC))
+print(prop.table(tYC,margin=1),2) # profils-ligne
+print(prop.table(tYC,margin=2),2) # profil colonne
+
+spineplot(tYC, off=1, xlab="couleur des yeux", ylab="couleurs des cheveux")
+
+chisq.test(tYC) # test du chi^2 d'independance: interpreter!
+
+
+
+
+?dudi.coa
+afc <- dudi.coa(cYC, scan = FALSE) # argument = dataframe brut
+# $li = coords lignes simultanee
+# $co = coords column simultanee
+
+afc$li
+afc$co
+
+afcin <- inertia.dudi(afc,col.inertia=T,row.inertia=T)
+# $TOT = val propres et % inertie cumules (ratio)
+# $row.abs = contributions absolues lignes
+# $row.rel = cos2 lignes
+# $row.cum # cos2 cumules lignes
+# et idem colonnes
+afcin$TOT
+
+scatterutil.eigen(afc$eig,nf=3,box=T,sub="")
+
+
+# S3 method for class 'coa': les 3 representations standards
+scatter(afc, method=1, sub="simultanee",
+	clab.row=0.90,clab.col=1.5,posieig="none")
+
+scatter(afc, method=2, sub="barycentres lignes",
+	clab.row=0.70,clab.col=1.2,posieig="none")
+
+scatter(afc, method=3, sub="barycentres colonnes",
+	clab.row=1.2,clab.col=0.75,posieig="none")
+
+
+# complements:
+# plan simultane lignes et col "a la main"
+xmax=max(c(afc$li$Axis1,afc$co$Comp1))
+xmin=min(c(afc$li$Axis1,afc$co$Comp1))
+ymax=max(c(afc$li$Axis2,afc$co$Comp2))
+ymin=min(c(afc$li$Axis2,afc$co$Comp2))
+plot(afc$li$Axis1, afc$li$Axis2, type="n",
+	xlim=c(xmin,xmax), ylim=c(ymin,ymax),
+	xlab="Axe 1", ylab="Axe 2")
+title(main="Representation simultanee")
+text(afc$li$Axis1, afc$li$Axis2, row.names(afc$li))
+text(afc$co$Comp1, afc$co$Comp2,row.names(afc$co), col=2) # coloration par variable
+abline(h=0, col=8); abline(v=0, col=8)
+
+
+# Exercice: tracer la representation simultanee avec taille ft du cos2
+# comme en ACP
+

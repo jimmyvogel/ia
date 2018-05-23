@@ -1,0 +1,6 @@
+Rappel sur les bases de données et les différents types:
+http://www.crescenzo.nom.fr/CMBasesDeDonnees/001-Introduction.html
+
+Base de donnée déductive lié à un moteur d'inférence:
+https://www.techniques-ingenieur.fr/base-documentaire/archives-th12/archives-technologies-logicielles-et-architecture-des-systemes-tiahb/archive-1/bases-de-donnees-deductives-h2048/exemples-de-sgbd-deductifs-h2048niv10003.html
+//TODO A VOIR

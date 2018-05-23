@@ -1,0 +1,4 @@
+fastText: librairie open source facebook //TODO a voir.
+http://www.archimag.com/reseaux-sociaux/2016/08/22/intelligence-artificielle-facebook-fasttext-textes-open-source
+
+tensorflow:https://www.tensorflow.org/

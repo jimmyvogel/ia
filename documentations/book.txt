@@ -1,0 +1,2 @@
+Book sur neural networks and deep learning + codes: //TODO a voir
+http://neuralnetworksanddeeplearning.com/index.html

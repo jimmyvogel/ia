@@ -1,0 +1,169 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc} % un package
+\usepackage[T1]{fontenc}      % un second package
+\usepackage[francais]{babel}  % un troisième package
+
+
+\title{ Cours Agent Intelligent Partie 2}
+\author{Jimmy Vogel}
+\date{19 mars 2013}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Rappel PEAS}
+\subsection{Exemple}
+
+\paragraph{P(mesure de performance)} 
+\begin{itemize}
+	\item trouver l'or +1000
+	\item mort -1000
+	\item -1 par déplacement
+	\item -10 pour chaque flèche tiré
+\end{itemize}
+\paragraph{E(environnement)}
+\begin{itemize}
+	\item odeur désagréable dans les cases adjacentes au Wumpus
+	\item courant d'air dans les cases adjacentes au puits
+	\item éclat dans la case contenant l'or
+\end{itemize}
+\paragraph{A(Actions)}
+\begin{itemize}
+	\item se déplacer a gauche, droite, en haut, en bas
+	\item tirer devant soit
+\end{itemize}
+\paragraph{S(Sensors)}
+\begin{itemize}
+	\item sentir l'air
+	\item sentir l'odeur du Wumpus
+\end{itemize}
+
+\subsection{Cas différents}
+\paragraph{}
+Dans l'environnement il faut préciser si on est dans un environnement mono-agent.
+Ici on aurait pu préciser que le monstre ne peut se déplacer.
+Il faut aussi préciser que la taille de la matrice est limité.
+
+\newpage
+
+\section{Systèmes experts}
+
+\subsection{Definition}
+
+\paragraph{}
+
+\begin{itemize}
+	\item Un système expert utilise des connaissances spécifiques à un domaine pour fournir des conseils ou des solutions à des problèmes.
+  	\item Des connaissances d'un domaine sont présentées dans une base de connaissances (par exemple base de règles).
+	\item Simuler le raisonnement de l'expert humain: moteur d'inférence
+	\item La performance d'un système expert dépend essentiellement de ses connaissances, moins du moteur d'infférence
+	\item Un système expert doit être riche en connaissances : Knowledge is power
+	\item Comme un expert humain, un système expert
+	\begin{itemize}
+		\item se spécialise dans un domaine
+		\item enrichit ses connaissances avec des expériences
+	\end{itemize}
+\end{itemize}
+
+\subsection{Domaines}
+
+\paragraph{}
+\begin{itemize}
+	\item Interprétation: former des conclusion de haut niveau à partir de données brutes
+	\item Prédiction: trouver des consséquences probables des situations données
+	\item Diagnostique: déterminer la cause du mal fonctionnement dans des situations complexes à partir des symptômes observables.
+	\item Configuration : construire une configuratino des composants pour atteindre des objectifs de performance tout en satisfaisant des contraintes de configuration.
+	\item Planification: déterminer une suite d'actions pour arriver à un ensemble d'objectifs.
+	\item Surveillance: comparer des comportements d'un système par rapport au comportement souhaité.
+	\item Contrôle: contrôler le comportement d'un environnement complexe.
+	\item etc.
+\end{itemize}
+
+\newpage
+
+\subsection{Architecture}
+
+\paragraph{Base de connaissances}
+\begin{itemize}
+	\item Les connaissances générales et spécifiques du domaine.
+	\item connaissance sous forme de règle Si alors pour des systèmes à base de règles.
+	\item des éditeurs à base de connaissances permet de réprésenter les connaissances sous forme facile à accéder.
+\end{itemize}
+
+\paragraph{Moteur inférence}
+\begin{itemize}
+	\item effectuer le raisonnement pour tirer les conséquences impliquées par la connaissance incluse dans le système.
+\end{itemize}
+
+\paragraph{Interface utilisateur}
+Le mieux est d'avoir la possibilité pour l'utilisateur d'utiliser une langue naturel.
+A partir du traitement du langage naturel, obtenir des connaissances ou vérifier des connaissances.
+Donne l'impression que l'utilisateur parle avec un humain.
+
+\paragraph{Exigences}
+\begin{itemize}
+	\item Raisonnement correct
+	\item Raisonnement ouvert à l'inspection
+	\item Capacité d'explication des choix et des décisions pris
+\end{itemize}
+
+\paragraph{Construction}
+Aussi des modules pour la création et la gestion d'un système expert peuvent être fournis ou réutilisés:
+\begin{itemize}
+	\item Jess en Java. 
+	\item CLIPS de la Nasa en C.
+\end{itemize}
+La construction de la base de connaissance est la partie difficile. Elle dépend des domaines.
+
+\newpage
+
+\section{Logique propositionnelle}
+\subsection{Definition}
+\paragraph{}
+La logique des propositions permet d'exprimer
+\begin{itemize}
+	\item des faits sur le monde
+	\item des négations
+	\item des conjonctions et des disjonctions
+	\item des phrases avec conséquence logique
+\end{itemize}
+\paragraph{}
+Une proposition est une expression(phrase) à propos du monde qui est soit vraie soit fausse. 
+
+\paragraph{}
+Elements de base:
+\begin{itemize}
+	\item sysboles de propositions
+	\item phrases spéciales: vrai , faux
+	\item opérateurs
+\end{itemize}
+
+\subsection{Exemple}
+Nous allons réutiliser le problème du Wumpus:
+\begin{itemize}
+	\item Si la case (2,3) a un puits alors il  y a un courant d'air dans les cases adjacentes.
+		$P_{23} \rightarrow C_{13} \land C_{33} \land C_{22} \land C_{24}$
+	\item S'il y a du courant d'air dans la case (1,2) alors il doit y avoir un puits dans une case adjacente.
+		$C_{12} \rightarrow P_{11} \lor  P_{22} \lor P_{13}$
+	\item 1er ordre: $P(i,j) \land adj(i_{1}, j_{1}, i, j) \rightarrow C(i_{1}, j_{1})$
+\end{itemize}
+
+\subsection{Rappel}
+Voir les lois de négation, d'implication, de DeMorgan ...etc \\
+Voir l'algorithme de résolution.
+
+\subsection{Soit}
+\paragraph{}
+\begin{itemize}
+	\item Résolution: connaissances sous formes de clauses
+	\item Chainages avant et arrière: connaissances sous forme de clauses de Horn (règles).
+\end{itemize}
+
+\subsection{}
+\paragraph{}
+
+
+\end{document}

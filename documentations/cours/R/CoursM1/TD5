@@ -1,0 +1,13 @@
+centerImputation <- function(x){
+	for(i in 1:length(x)){
+		pos <- which(is.na(x[,i]) );
+		if(is.numeric(x[,i])){
+			x[pos,i]<-median(x[,i], na.rm=T);
+		}else{
+			if(class(x[,i])=='factor'){
+				x[pos,i]<-Mode(x[,i]);
+			}
+		}
+	}
+	(x);
+}

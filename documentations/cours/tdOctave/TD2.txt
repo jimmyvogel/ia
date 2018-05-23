@@ -1,0 +1,5 @@
+img = imread('lena.jpg');
+imdb = im2double(img);
+imwrite(imdb,'lena.bmp');
+figure : imshow(imdb);
+

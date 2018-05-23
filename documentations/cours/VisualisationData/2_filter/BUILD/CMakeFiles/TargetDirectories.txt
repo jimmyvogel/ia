@@ -1,0 +1,6 @@
+/home/vogel/Documents/learning/CoursM2/VisualisationData/2/BUILD/CMakeFiles/edit_cache.dir
+/home/vogel/Documents/learning/CoursM2/VisualisationData/2/BUILD/CMakeFiles/test.dir
+/home/vogel/Documents/learning/CoursM2/VisualisationData/2/BUILD/CMakeFiles/rebuild_cache.dir
+/home/vogel/Documents/learning/CoursM2/VisualisationData/2/BUILD/CMakeFiles/check.dir
+/home/vogel/Documents/learning/CoursM2/VisualisationData/2/BUILD/CMakeFiles/vtktp.dir
+/home/vogel/Documents/learning/CoursM2/VisualisationData/2/BUILD/CMakeFiles/tp1.dir

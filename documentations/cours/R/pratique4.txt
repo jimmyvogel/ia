@@ -1,0 +1,7 @@
+http://www.univ-orleans.fr/mapmo/membres/chauveau/ens/GSON2018/
+
++
+
+#calcul direct des coorélations
+cc <- cor(x, acpNN$i)
+cc
